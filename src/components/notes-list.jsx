@@ -3,33 +3,23 @@ import NotesItem from './notes-item';
 import PropTypes from 'prop-types';
 
 function NotesList({ notes, onArchive, onDelete }) {
-  const listNotes = notes.filter((note) => !note.archived);
-  console.log(notes);
-
   return (
     <div className='notesList'>
-      {listNotes.length > 0 ? (
-        listNotes.map((note) => (
-          <NotesItem
-            key={note.id}
-            id={note.id}
-            {...note}
-            onArchive={onArchive}
-            onDelete={onDelete}
-          />
-        ))
+      {!notes.length ? (
+        <p className='notes-empty-message'>Tidak ada catatan</p>
       ) : (
-        <p className='notes-empty-message'>Tidak ada notes yang diarsipkan</p>
+        notes.filter((note) => !note.archived).map((note) => (
+          <NotesItem key={note.id.toString()} {...note} onArchive={onArchive} onDelete={onDelete} id={note.id.toString()} />
+        ))
       )}
     </div>
   );
 }
 
 NotesList.propTypes = {
-  notes: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    archived: PropTypes.bool.isRequired,
-  })).isRequired,
+  notes: PropTypes.arrayOf(
+    PropTypes.shape({ id: PropTypes.string.isRequired, archived: PropTypes.bool.isRequired })
+  ).isRequired,
   onArchive: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
 };

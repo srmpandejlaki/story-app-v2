@@ -1,6 +1,5 @@
 import React from 'react';
 import ArchiveItem from './archive-item';
-import PropTypes from 'prop-types';
 
 function ArchiveList({ notes, onUnarchive, onDelete }) {
   const archivedNotes = notes.filter((note) => note.archived);
@@ -23,11 +22,5 @@ function ArchiveList({ notes, onUnarchive, onDelete }) {
     </div>
   );
 }
-
-ArchiveList.propTypes = {
-  id: PropTypes.string.isRequired,
-  onUnarchive: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
-};
 
 export default ArchiveList;

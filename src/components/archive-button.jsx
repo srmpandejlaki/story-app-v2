@@ -11,7 +11,7 @@ function ArchiveButton({ id, onUnarchive, onDelete}) {
 }
 
 ArchiveButton.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   onUnarchive: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
 };

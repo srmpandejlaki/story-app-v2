@@ -1,5 +1,5 @@
 import React from 'react';
-import { getAllNotes } from './utils/index';
+import { getAllNotes } from './utils/local-data';
 import NotesList from './components/notes-list';
 import FormContainer from './components/form-container';
 import ArchiveList from './components/archive-list';
@@ -50,7 +50,7 @@ class App extends React.Component {
   onUnarchiveHandler(id) {
     const notes = this.state.notes.map((note) => {
       if (note.id === id) {
-        return { ...note, archived: false };
+        return { archived: !note.archived };
       }
       return note;
     });
@@ -67,11 +67,10 @@ class App extends React.Component {
   }
 
   render() {
-    const { notes, searchKeyword } = this.state;
-
-    const filteredNotes = notes.filter((note) =>
-      note.title.toLowerCase().includes(searchKeyword.toLowerCase())
-    );
+    const { notes, searchKeyword='' } = this.state;
+    const filteredNotes = notes.filter((note) => {
+      return note.title?.toLowerCase().includes(searchKeyword.toLowerCase());
+    });
 
     return (
       <div className='main'>
@@ -82,7 +81,10 @@ class App extends React.Component {
         <div className='notesContainer'>
           <h1>Personal Notes</h1>
           <NotesList
-            notes={filteredNotes.filter((note) => !note.archived)}
+            notes={filteredNotes.filter((note) => !note.archived).map(note => ({
+              ...note,
+              id: note.id.toString() // Mengonversi id menjadi string
+            }))}
             onArchive={this.onArchiveHandler}
             onDelete={this.onDeleteHandler}
           />
