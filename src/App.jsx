@@ -1,5 +1,5 @@
 import React from 'react';
-import { getInitialData } from '../utils/index';
+import { getAllNotes } from './utils/index';
 import NotesList from './components/notes-list';
 import FormContainer from './components/form-container';
 import ArchiveList from './components/archive-list';
@@ -9,7 +9,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      notes: getInitialData(),
+      notes: getAllNotes(),
       searchKeyword: '',
     };
 
