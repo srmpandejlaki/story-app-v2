@@ -1,3 +1,5 @@
+import NotesButton from "../components/notes-button";
+
 let notes = [
   {
     id: 'notes-1',
@@ -48,8 +50,8 @@ function getAllNotes() {
 }
 
 function getNote(id) {
-  const foundedNote = notes.find((note) => note.id === id);
-  return foundedNote;
+  const notes = getAllNotes();
+  return notes.find(note => note.id === id) || null;
 }
 
 function getActiveNotes() {

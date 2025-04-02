@@ -1,11 +1,12 @@
 import React from 'react';
 import { showFormattedDate } from '../utils/index';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
-function NotesBody({ title, body, createdAt }) {
+function NotesBody({ id, title, body, createdAt }) {
   return (
     <div>
-      <h2 className='title'>{title}</h2>
+      <Link to={`/note/${id}`} className='title'>{title}</Link>
       <p className='body'>{body}</p>
       <p className='createdAt'>{showFormattedDate(createdAt)}</p>
     </div>
@@ -13,6 +14,7 @@ function NotesBody({ title, body, createdAt }) {
 }
 
 NotesBody.propTypes = {
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   title: PropTypes.string.isRequired,
   body: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
