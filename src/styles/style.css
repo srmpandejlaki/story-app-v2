@@ -163,17 +163,17 @@ button {
   gap: 1rem;
 }
 
-.note-body__title {
+.note-body .title {
   margin: 4px 0;
 }
 
-.note-body__createdAt {
+.note-body .createdAt {
   color: var(--on-background-grey);
   font-size: 14px;
   margin: 4px 0;
 }
 
-.note-item__body {
+.note-item .body {
   margin-top: 16px;
   overflow: hidden;
   display: -webkit-box;
@@ -189,17 +189,18 @@ button {
   width: 90%;
 }
 
-.detail-page__title {
+.detail-page .title {
   font-size: 48px;
   margin-bottom: 8px;
   word-wrap: break-word;
 }
 
-.detail-page__createdAt {
-  color: var(--on-background-grey)
+.detail-page .createdAt {
+  color: var(--on-background-grey);
+  text-align: end;
 }
 
-.detail-page__body {
+.detail-page .body {
   line-height: 1.5;
   margin-top: 36px;
   font-size: 18px;

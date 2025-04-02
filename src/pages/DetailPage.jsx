@@ -5,8 +5,8 @@ import { useParams } from 'react-router-dom';
 
 function DetailPageWrapper() {
   const { id } = useParams();
-  console.log(id);
-   return <DetailNote id={id} />;
+  
+  return <DetailNote id={id} />;
 }
 
 class DetailNote extends React.Component {
@@ -16,7 +16,6 @@ class DetailNote extends React.Component {
     this.state = {
       note: getNote(props.id),
     };
-    console.log("Fetched Note:", this.state.note);
   }
 
   render() {
@@ -27,8 +26,7 @@ class DetailNote extends React.Component {
     }
 
     return (
-      <div className='detail'>
-        <h1>Your Notes</h1>
+      <div className='detail-page'>
         <NotesBody id={note.id} title={note.title} body={note.body} createdAt={note.createdAt} />
       </div>
     );

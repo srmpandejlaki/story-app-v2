@@ -51,8 +51,6 @@ function getAllNotes() {
 
 function getNote(id) {
   const notes = getAllNotes();
-  console.log("ID yang diterima:", id);
-  console.log("Daftar ID yang tersedia:", notes.map(note => note.id));
   return notes.find(note => note.id === id) || null;
 }
 
