@@ -1,3 +1,5 @@
+import NotesButton from "../components/notes-button";
+
 let notes = [
   {
     id: 'notes-1',
@@ -48,8 +50,10 @@ function getAllNotes() {
 }
 
 function getNote(id) {
-  const foundedNote = notes.find((note) => note.id === id);
-  return foundedNote;
+  const notes = getAllNotes();
+  console.log("ID yang diterima:", id);
+  console.log("Daftar ID yang tersedia:", notes.map(note => note.id));
+  return notes.find(note => note.id === id) || null;
 }
 
 function getActiveNotes() {
