@@ -38,6 +38,24 @@ body {
   transition: all ease-in-out 0.5s;
 }
 
+.header {
+  padding: 1rem;
+  color: var(--on-background);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+ul {
+  display: flex;
+  gap: 1rem;
+  list-style-type: none;
+}
+
+.nav-bar a {
+  color: var(--on-background);
+}
+
 .text {
   padding-block: 1rem;
   border-bottom: 1px solid var(--on-background);
@@ -164,6 +182,7 @@ button {
   -webkit-box-orient: vertical;
 }
 
+/* Detail Page */
 .detail-page {
   margin: 0 auto;
   margin-top: 32px; 
