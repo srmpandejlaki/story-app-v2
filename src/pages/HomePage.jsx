@@ -1,10 +1,8 @@
 import React from 'react';
-import { 
-    getAllNotes, getActiveNotes, getArchivedNotes, 
-    deleteNote, archiveNote, unarchiveNote 
-} from '../utils/local-data';
+import { getAllNotes, deleteNote, archiveNote, unarchiveNote } from '../utils/local-data';
 import NoteLists from '../components/notes-list';
 import ArchiveList from '../components/archive-list';
+import FormContainer from '../components/form-container';
 import SearchBar from '../components/search-bar';
 
 class HomePage extends React.Component {
@@ -15,51 +13,43 @@ class HomePage extends React.Component {
       searchKeyword: '',
     };
 
-    // this.onAddNotesHandler = this.onAddNotesHandler.bind(this);
+    this.onAddNotesHandler = this.onAddNotesHandler.bind(this);
     this.onArchiveHandler = this.onArchiveHandler.bind(this);
     this.onUnarchiveHandler = this.onUnarchiveHandler.bind(this);
     this.onDeleteHandler = this.onDeleteHandler.bind(this);
     this.onSearchHandler = this.onSearchHandler.bind(this);
   }
 
-//   onAddNotesHandler({ title, body }) {
-//     this.setState((prevState) => {
-//       return {
-//         notes: [
-//           ...prevState.notes,
-//           {
-//             id: +new Date(),
-//             title,
-//             body,
-//             archived: false,
-//             createdAt: new Date().toISOString(),
-//           },
-//         ],
-//       };
-//     });
-//   }
+  onAddNotesHandler({ title, body }) {
+    this.setState((prevState) => {
+      return {
+        notes: [
+          ...prevState.notes,
+          {
+            id: +new Date(),
+            title,
+            body,
+            archived: false,
+            createdAt: new Date().toISOString(),
+          },
+        ],
+      };
+    });
+  }
 
   onArchiveHandler(id) {
-    getActiveNotes(id);
-    this.setState(() => {
-        return { 
-          notes: getAllNotes(),
-        };
-    });
+    archiveNote(id);
+    this.setState({ notes: getAllNotes() });
   }
 
   onUnarchiveHandler(id) {
     unarchiveNote(id);
-    this.setState(() => {
-        return { 
-          notes: getAllNotes(),
-        };
-    });
+    this.setState({ notes: getAllNotes() });
   }
 
   onDeleteHandler(id) {
     deleteNote(id);
-    this.setState({ notes });
+    this.setState({ notes: getAllNotes() });
   }
 
   onSearchHandler(keyword) {
@@ -75,7 +65,7 @@ class HomePage extends React.Component {
     return (
       <div className='main'>
         <section>
-          <h1>Your Notes</h1>
+          <FormContainer addNotes={this.onAddNotesHandler} />
         </section>
         <section className='app-container'>
           <SearchBar onSearch={this.onSearchHandler} />

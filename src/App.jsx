@@ -1,10 +1,11 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
-import AddNote from './pages/AddPage';
+import DetailNote from './pages/DetailPage';
 import NavBar from './components/nav-bar';
 
 function App() {
+  
   return (
     <div className='main'>
       <header>
@@ -17,7 +18,7 @@ function App() {
       <main>
         <Routes>
           <Route exact path='/' element={<HomePage />} />
-          <Route path='/add' element={<AddNote />} />
+          <Route path='/add' element={<DetailNote />} />
         </Routes>
       </main>
     </div>
