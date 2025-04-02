@@ -1,6 +1,6 @@
 import React from 'react';
 import { getAllNotes } from './utils/local-data';
-import NotesList from './components/notes-list';
+import NoteLists from './components/notes-list';
 import FormContainer from './components/form-container';
 import ArchiveList from './components/archive-list';
 import SearchBar from './components/search-bar';
@@ -74,13 +74,14 @@ class App extends React.Component {
 
     return (
       <div className='main'>
-        <div>
+        <section>
           <FormContainer addNotes={this.onAddNotesHandler}/>
+        </section>
+        <section className='app-container'>
+          <h1>Your Notes</h1>
+          <p>Welcome to Digital Personal Notes Chest. Always Save All Your Memories Here</p>
           <SearchBar onSearch={this.onSearchHandler} />
-        </div>
-        <div className='notesContainer'>
-          <h1>Personal Notes</h1>
-          <NotesList
+          <NoteLists
             notes={filteredNotes.filter((note) => !note.archived).map(note => ({
               ...note,
               id: note.id.toString() // Mengonversi id menjadi string
@@ -88,15 +89,18 @@ class App extends React.Component {
             onArchive={this.onArchiveHandler}
             onDelete={this.onDeleteHandler}
           />
-        </div>
-        <div className='archiveContainer'>
+        </section>
+        <section className='archiveContainer'>
           <h1>Archive Notes</h1>
           <ArchiveList
-            notes={filteredNotes.filter((note) => note.archived)}
+            notes={filteredNotes.filter((note) => note.archived).map(note => ({
+              ...note,
+              id: note.id.toString() // Mengonversi id menjadi string
+            }))}
             onUnarchive={this.onUnarchiveHandler}
             onDelete={this.onDeleteHandler}
           />
-        </div>
+        </section>
       </div>
     );
   }

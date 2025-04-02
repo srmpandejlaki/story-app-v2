@@ -2,9 +2,9 @@ import React from 'react';
 import NotesItem from './notes-item';
 import PropTypes from 'prop-types';
 
-function NotesList({ notes, onArchive, onDelete }) {
+function NoteLists({ notes, onArchive, onDelete }) {
   return (
-    <div className='notesList'>
+    <div className='notes-list'>
       {!notes.length ? (
         <p className='notes-empty-message'>Tidak ada catatan</p>
       ) : (
@@ -16,7 +16,7 @@ function NotesList({ notes, onArchive, onDelete }) {
   );
 }
 
-NotesList.propTypes = {
+NoteLists.propTypes = {
   notes: PropTypes.arrayOf(
     PropTypes.shape({ id: PropTypes.string.isRequired, archived: PropTypes.bool.isRequired })
   ).isRequired,
@@ -24,4 +24,4 @@ NotesList.propTypes = {
   onDelete: PropTypes.func.isRequired,
 };
 
-export default NotesList;
+export default NoteLists;

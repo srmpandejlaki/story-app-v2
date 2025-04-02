@@ -21,11 +21,11 @@ class SearchBar extends React.Component {
 
   render() {
     return (
-      <div className='searchBar'>
-        <h3>Find Your Note</h3>
+      <div className='search-bar'>
+        <h3>Find Your Special Note</h3>
         <input
           type='text'
-          placeholder='Search notes...'
+          placeholder='Search note...'
           value={this.state.keyword}
           onChange={this.onSearchingEventHandler}
         />

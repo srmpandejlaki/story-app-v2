@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 function NotesBody({ title, body, createdAt }) {
   return (
     <div>
-      <h2 className='titleNotes'>{title}</h2>
-      <p className='bodyNotes'>{body}</p>
-      <p className='dateNotes'>{showFormattedDate(createdAt)}</p>
+      <h2 className='title'>{title}</h2>
+      <p className='body'>{body}</p>
+      <p className='createdAt'>{showFormattedDate(createdAt)}</p>
     </div>
   );
 }
