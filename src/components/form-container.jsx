@@ -14,17 +14,11 @@ class FormContainer extends React.Component {
     this.onSubmitEventHandler = this.onSubmitEventHandler.bind(this);
   }
 
-  onTitleChangeEventHandler= (event) => {
-    const { titleLimit } = this.state;
-    const inputTitle = event.target.value;
-
-    // Batasi input sesuai `titleLimit`
-    if (inputTitle.length <= titleLimit) {
-      this.setState({ title: inputTitle });
-    }
+  onTitleChangeEventHandler = (event) => {
+    this.setState({ title: event.target.value });
   }
 
-  onBodyChangeEventHandler= (event) => {
+  onBodyChangeEventHandler = (event) => {
     this.setState({ body: event.target.value });
   }
 
@@ -43,26 +37,26 @@ class FormContainer extends React.Component {
   }
 
   render() {
-    const { title, body, titleLimit } = this.state;
-    const remainingChars = titleLimit - title.length;
+    const { title, body } = this.state;
 
     return (
-      <div className='formContainer'>
+      <div className='form-container'>
         <h1>Let's Create Your Note</h1>
-        <p className="character-limit">remaining characters available: {remainingChars}</p>
-        <form className='formInput' onSubmit={this.onSubmitEventHandler}>
-          <input
-            type='text'
-            placeholder='Title Notes'
-            value={title}
-            onChange={this.onTitleChangeEventHandler}
-          />
-          <textarea
-            placeholder='Description'
-            value={body}
-            onChange={this.onBodyChangeEventHandler}
-          />
-          <button className='btnForm' type='submit'>Save</button>
+        <form onSubmit={this.onSubmitEventHandler}>
+          <section className='form-input'>
+            <input
+              type='text'
+              placeholder='Title Notes'
+              value={title}
+              onChange={this.onTitleChangeEventHandler}
+            />
+            <textarea
+              placeholder='Description'
+              value={body}
+              onChange={this.onBodyChangeEventHandler}
+            />
+          </section>
+          <button className='btn-form' type='submit'>Save</button>
         </form>
       </div>
     );

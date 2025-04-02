@@ -2,22 +2,14 @@ import React from 'react';
 import ArchiveItem from './archive-item';
 
 function ArchiveList({ notes, onUnarchive, onDelete }) {
-  const archivedNotes = notes.filter((note) => note.archived);
-
   return (
-    <div className='archiveList'>
-      {archivedNotes.length > 0 ? (
-        archivedNotes.map((note) => (
-          <ArchiveItem
-            key={note.id}
-            id={note.id}
-            {...note}
-            onUnarchive={onUnarchive}
-            onDelete={onDelete}
-          />
-        ))
+    <div className='archive-list'>
+      {!notes.length ? (
+        <p className='notes-empty-message'>Tidak ada catatan</p>
       ) : (
-        <p className='notes-empty-message'>Tidak ada notes yang diarsipkan</p>
+        notes.filter((note) => note.archived).map((note) => (
+          <ArchiveItem key={note.id.toString()} {...note} onUnarchive={onUnarchive} onDelete={onDelete} id={note.id.toString()} />
+        ))
       )}
     </div>
   );

@@ -75,11 +75,11 @@ class App extends React.Component {
     return (
       <div className='main'>
         <section>
+          <h1>Your Notes</h1>
+          <p className='text'>Welcome to the Digital Personal Notes Chest. Always Save All Your Memories Here</p>
           <FormContainer addNotes={this.onAddNotesHandler}/>
         </section>
         <section className='app-container'>
-          <h1>Your Notes</h1>
-          <p>Welcome to Digital Personal Notes Chest. Always Save All Your Memories Here</p>
           <SearchBar onSearch={this.onSearchHandler} />
           <NoteLists
             notes={filteredNotes.filter((note) => !note.archived).map(note => ({
@@ -90,7 +90,7 @@ class App extends React.Component {
             onDelete={this.onDeleteHandler}
           />
         </section>
-        <section className='archiveContainer'>
+        <section className='archive-container'>
           <h1>Archive Notes</h1>
           <ArchiveList
             notes={filteredNotes.filter((note) => note.archived).map(note => ({
