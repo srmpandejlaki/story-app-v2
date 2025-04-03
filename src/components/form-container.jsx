@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class FormContainer extends React.Component {
   constructor(props) {
@@ -8,10 +9,6 @@ class FormContainer extends React.Component {
       body: '',
       titleLimit: 50,
     };
-
-    this.onTitleChangeEventHandler = this.onTitleChangeEventHandler.bind(this);
-    this.onBodyChangeEventHandler = this.onBodyChangeEventHandler.bind(this);
-    this.onSubmitEventHandler = this.onSubmitEventHandler.bind(this);
   }
 
   onTitleChangeEventHandler = (event) => {
@@ -62,5 +59,9 @@ class FormContainer extends React.Component {
     );
   }
 }
+
+FormContainer.propTypes = {
+  addNotes: PropTypes.func.isRequired,
+};
 
 export default FormContainer;

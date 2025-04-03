@@ -2,10 +2,11 @@ import React from 'react';
 import NotesBody from '../components/notes-body';
 import { getNote } from '../utils/local-data';
 import { useParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 function DetailPageWrapper() {
   const { id } = useParams();
-  
+  console.log('ID from URL:', id);
   return <DetailNote id={id} />;
 }
 
@@ -32,5 +33,12 @@ class DetailNote extends React.Component {
     );
   }
 }
+
+DetailNote.propTypes = {
+  id:PropTypes.string.isRequired,
+  title:PropTypes.string.isRequired,
+  body:PropTypes.string.isRequired,
+  createdAt:PropTypes.string.isRequired,
+};
 
 export default DetailPageWrapper;
