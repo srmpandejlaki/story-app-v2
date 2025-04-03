@@ -17,10 +17,6 @@ function NoteLists({ notes, onArchive, onDelete }) {
 }
 
 NoteLists.propTypes = {
-  notes: PropTypes.arrayOf(PropTypes.shape({ 
-    id: PropTypes.string.isRequired, 
-    archived: PropTypes.bool.isRequired 
-  })).isRequired,
   onArchive: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
 };

@@ -17,10 +17,6 @@ function ArchiveList({ notes, onUnarchive, onDelete }) {
 }
 
 ArchiveList.propTypes = {
-  notes: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    archived: PropTypes.bool.isRequired,
-  })).isRequired,
   onUnarchive: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
 };
