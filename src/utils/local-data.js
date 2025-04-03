@@ -64,10 +64,17 @@ function getArchivedNotes() {
   return archivedNotes;
 }
 
-function addNote({ title, body }) {
-  notes = [...notes, {
-    id: `notes-${+new Date()}`, title: title || '(untitled)', body, createdAt: new Date().toISOString(), archived: false,
-  }];
+function addNote(title, body) {
+  const newNote = {
+    id: `notes-${+new Date()}`,
+    title: title || '(untitled)',
+    body,
+    createdAt: new Date().toISOString(),
+    archived: false,
+  };
+
+  notes = [...notes, newNote];
+  localStorage.setItem('notes', JSON.stringify(notes));
 }
 
 function deleteNote(id) {

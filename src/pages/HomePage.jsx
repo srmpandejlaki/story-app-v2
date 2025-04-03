@@ -1,5 +1,5 @@
 import React from 'react';
-import { getAllNotes, deleteNote, archiveNote, unarchiveNote } from '../utils/local-data';
+import { getAllNotes, addNote, deleteNote, archiveNote, unarchiveNote } from '../utils/local-data';
 import NoteLists from '../components/notes-list';
 import ArchiveList from '../components/archive-list';
 import FormContainer from '../components/form-container';
@@ -21,20 +21,8 @@ class HomePage extends React.Component {
   }
 
   onAddNotesHandler({ title, body }) {
-    this.setState((prevState) => {
-      return {
-        notes: [
-          ...prevState.notes,
-          {
-            id: +new Date(),
-            title,
-            body,
-            archived: false,
-            createdAt: new Date().toISOString(),
-          },
-        ],
-      };
-    });
+    addNote(title, body);
+    this.setState({ notes: getAllNotes() });
   }
 
   onArchiveHandler(id) {
@@ -83,7 +71,7 @@ class HomePage extends React.Component {
           <ArchiveList
             notes={filteredNotes.filter((note) => note.archived).map(note => ({
               ...note,
-              id: note.id.toString() // Mengonversi id menjadi string
+              id: note.id
             }))}
             onUnarchive={this.onUnarchiveHandler}
             onDelete={this.onDeleteHandler}
