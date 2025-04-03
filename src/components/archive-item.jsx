@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 function ArchiveItem({ title, body, id, createdAt, onUnarchive, onDelete }) {
   return (
     <div className='note-item'>
-      <NotesBody title={title} body={body} createdAt={createdAt}></NotesBody>
+      <NotesBody id={id} title={title} body={body} createdAt={createdAt}></NotesBody>
       <ArchiveButton id={id} onUnarchive={onUnarchive} onDelete={onDelete} ></ArchiveButton>
     </div>
   );

@@ -3,6 +3,7 @@ import NotesItem from './notes-item';
 import PropTypes from 'prop-types';
 
 function NoteLists({ notes, onArchive, onDelete }) {
+  console.log(notes);
   return (
     <div className='notes-list'>
       {!notes.length ? (
@@ -17,6 +18,10 @@ function NoteLists({ notes, onArchive, onDelete }) {
 }
 
 NoteLists.propTypes = {
+  notes: PropTypes.arrayOf(PropTypes.shape({ 
+    id: PropTypes.string.isRequired, 
+    archived: PropTypes.bool.isRequired 
+  })).isRequired,
   onArchive: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
 };

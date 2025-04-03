@@ -1,5 +1,5 @@
 import React from 'react';
-import NotesBody from '../components/notes-body';
+import { showFormattedDate } from '../utils/index';
 import { getNote } from '../utils/local-data';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -27,17 +27,16 @@ class DetailNote extends React.Component {
 
     return (
       <div className='detail-page'>
-        <NotesBody id={note.id} title={note.title} body={note.body} createdAt={note.createdAt} />
+        <p className='title'>{note.title}</p>
+        <p className='body'>{note.body}</p>
+        <p className='createdAt'>{showFormattedDate(note.createdAt)}</p>
       </div>
     );
   }
 }
 
 DetailNote.propTypes = {
-  id:PropTypes.string.isRequired,
-  title:PropTypes.string.isRequired,
-  body:PropTypes.string.isRequired,
-  createdAt:PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
 };
 
 export default DetailPageWrapper;
