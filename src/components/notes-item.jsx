@@ -7,7 +7,7 @@ function NotesItem({ title, body, createdAt, id, onArchive, onDelete }) {
   return (
     <div className='note-item'>
       <NotesBody id={id} title={title} body={body} createdAt={createdAt}></NotesBody>
-      <NotesButton id={id.toString()} onArchive={onArchive} onDelete={onDelete} ></NotesButton>
+      <NotesButton id={id} onArchive={onArchive} onDelete={onDelete} ></NotesButton>
     </div>
   );
 };

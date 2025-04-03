@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 
 function DetailPageWrapper() {
   const { id } = useParams();
-  console.log('ID from URL:', id);
   return <DetailNote id={id} />;
 }
 

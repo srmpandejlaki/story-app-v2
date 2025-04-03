@@ -71,7 +71,7 @@ class HomePage extends React.Component {
           <ArchiveList
             notes={filteredNotes.filter((note) => note.archived).map(note => ({
               ...note,
-              id: note.id.toString() // Mengonversi id menjadi string
+              id: note.id
             }))}
             onUnarchive={this.onUnarchiveHandler}
             onDelete={this.onDeleteHandler}

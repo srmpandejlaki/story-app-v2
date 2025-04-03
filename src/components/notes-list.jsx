@@ -9,7 +9,7 @@ function NoteLists({ notes, onArchive, onDelete }) {
         <p className='notes-empty-message'>Tidak ada catatan</p>
       ) : (
         notes.filter((note) => !note.archived).map((note) => (
-          <NotesItem key={note.id.toString()} {...note} onArchive={onArchive} onDelete={onDelete} id={note.id.toString()} />
+          <NotesItem key={note.id} {...note} onArchive={onArchive} onDelete={onDelete} id={note.id} />
         ))
       )}
     </div>
@@ -17,9 +17,10 @@ function NoteLists({ notes, onArchive, onDelete }) {
 }
 
 NoteLists.propTypes = {
-  notes: PropTypes.arrayOf(
-    PropTypes.shape({ id: PropTypes.string.isRequired, archived: PropTypes.bool.isRequired })
-  ).isRequired,
+  notes: PropTypes.arrayOf(PropTypes.shape({ 
+    id: PropTypes.string.isRequired, 
+    archived: PropTypes.bool.isRequired 
+  })).isRequired,
   onArchive: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
 };

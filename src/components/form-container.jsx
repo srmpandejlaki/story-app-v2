@@ -7,7 +7,6 @@ class FormContainer extends React.Component {
     this.state = {
       title: '',
       body: '',
-      titleLimit: 50,
     };
   }
 
