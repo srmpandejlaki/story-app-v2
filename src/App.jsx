@@ -27,6 +27,9 @@ class App extends React.Component {
             <Routes>
               <Route path="/*" element={<p>Halaman Login</p>} />
               <Route path="/register" element={<RegisterPage />} />
+              <Route exact path='/home' element={<HomePage />} />
+              <Route path='/note/:id' element={<DetailPageWrapper />} />
+              <Route path='*' element={<NotFoundPage />} />
             </Routes>
           </main>
         </div>
