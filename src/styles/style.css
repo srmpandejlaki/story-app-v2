@@ -61,7 +61,7 @@ ul {
   border-bottom: 1px solid var(--on-background);
 }
 
-.form-container {
+.form-container, .register-input, .login-input {
   padding-block: 2rem;
   display: flex;
   flex-direction: column;
