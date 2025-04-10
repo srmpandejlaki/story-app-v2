@@ -50,7 +50,7 @@ class RegisterInput extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.onSubmitHandler} className='register-input'>
+      <form onSubmit={this.onSubmitHandler} className='form-container'>
         <input type="text" placeholder="Nama" value={this.state.name} onChange={this.onNameChange} />
         <input type="email" placeholder="Email" value={this.state.email} onChange={this.onEmailChange} />
         <input type="password" placeholder="Password" autoComplete='current-password' value={this.state.password} onChange={this.onPasswordChange} />
@@ -60,7 +60,7 @@ class RegisterInput extends React.Component {
   }
 }
 
-RegisterInput.PropTypes = {
+RegisterInput.propTypes = {
   register: PropTypes.func.isRequired,
 };
 
