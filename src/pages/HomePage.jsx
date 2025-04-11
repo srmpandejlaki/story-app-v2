@@ -1,112 +1,102 @@
 import React from 'react';
-import { addNote, getActiveNotes, getArchivedNotes, archiveNote, unarchiveNote, deleteNote } from '../utils/index';
+import {
+  addNote,
+  getActiveNotes,
+  getArchivedNotes,
+  archiveNote,
+  unarchiveNote,
+  deleteNote
+} from '../utils/index';
 import NoteLists from '../components/notes-list';
 import ArchiveList from '../components/archive-list';
 import FormContainer from '../components/form-container';
 import SearchBar from '../components/search-bar';
+import { useSearchParams } from 'react-router-dom';
 
-class HomePage extends React.Component {
-  constructor(props) {
-    super(props);
+function HomePage() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [notes, setNotes] = React.useState([]);
+  const [archivedNotes, setArchivedNotes] = React.useState([]);
+  const [keyword, setKeyword] = React.useState(() => {
+    return searchParams.get('keyword') || '';
+  });
 
-    this.state = {
-      activeNotes: [],
-      archivedNotes: [],
-      searchKeyword: props.defaultKeyword || '',
-    };
+  // Fungsi ambil semua data notes
+  async function getNotes() {
+    const activeResponse = await getActiveNotes();
+    const archivedResponse = await getArchivedNotes();
 
-    this.onAddNotesHandler = this.onAddNotesHandler.bind(this);
-    this.onArchiveHandler = this.onArchiveHandler.bind(this);
-    this.onUnarchiveHandler = this.onUnarchiveHandler.bind(this);
-    this.onDeleteHandler = this.onDeleteHandler.bind(this);
-    this.onSearchHandler = this.onSearchHandler.bind(this);
+    const activeNotes = activeResponse.data || [];
+    const archivedNotes = archivedResponse.data || [];
+
+    setNotes(activeNotes);
+    setArchivedNotes(archivedNotes);
   }
 
-  async componentDidMount() {
-    await this.loadNotes();
+  React.useEffect(() => {
+    getNotes();
+  }, []);
+
+  function onKeywordChangeHandler(keyword) {
+    setKeyword(keyword);
+    setSearchParams({ keyword });
   }
 
-  async loadNotes() {
-    const active = await getActiveNotes();
-    const archived = await getArchivedNotes();
+  const filteredNotes = notes.filter((note) =>
+    note.title.toLowerCase().includes(keyword.toLowerCase())
+  );
 
-    if (!active.error && !archived.error) {
-      this.setState({
-        activeNotes: active.data,
-        archivedNotes: archived.data,
-      });
-    }
-  }
+  const filteredArchived = archivedNotes.filter((note) =>
+    note.title.toLowerCase().includes(keyword.toLowerCase())
+  );
 
-  async onAddNotesHandler({ title, body }) {
+  async function onAddNotesHandler({ title, body }) {
     const result = await addNote({ title, body });
     if (!result.error) {
-      await this.loadNotes();
+      getNotes();
     }
   }
 
-  async onArchiveHandler(id) {
+  async function onArchiveHandler(id) {
     await archiveNote(id);
-    await this.loadNotes();
+    getNotes();
   }
 
-  async onUnarchiveHandler(id) {
+  async function onUnarchiveHandler(id) {
     await unarchiveNote(id);
-    await this.loadNotes();
+    getNotes();
   }
 
-  async onDeleteHandler(id) {
+  async function onDeleteHandler(id) {
     await deleteNote(id);
-    await this.loadNotes();
+    getNotes();
   }
 
-  onSearchHandler(keyword) {
-    this.setState({ searchKeyword: keyword });
-  }
+  return (
+    <div className='main'>
+      <section>
+        <FormContainer addNotes={onAddNotesHandler} />
+      </section>
 
-  render() {
-    const { activeNotes, archivedNotes, searchKeyword = '' } = this.state;
+      <section className='app-container'>
+        <SearchBar onSearch={onKeywordChangeHandler} />
+        <NoteLists
+          notes={filteredNotes}
+          onArchive={onArchiveHandler}
+          onDelete={onDeleteHandler}
+        />
+      </section>
 
-    const filteredActive = activeNotes.filter((note) =>
-      note.title?.toLowerCase().includes(searchKeyword.toLowerCase())
-    );
-
-    const filteredArchived = archivedNotes.filter((note) =>
-      note.title?.toLowerCase().includes(searchKeyword.toLowerCase())
-    );
-
-    return (
-      <div className='main'>
-        <section>
-          <FormContainer addNotes={this.onAddNotesHandler} />
-        </section>
-
-        <section className='app-container'>
-          <SearchBar onSearch={this.onSearchHandler} />
-          <NoteLists
-            notes={filteredActive.map((note) => ({
-              ...note,
-              id: note.id.toString()
-            }))}
-            onArchive={this.onArchiveHandler}
-            onDelete={this.onDeleteHandler}
-          />
-        </section>
-
-        <section className='archive-container'>
-          <h1>Archive Notes</h1>
-          <ArchiveList
-            notes={filteredArchived.map((note) => ({
-              ...note,
-              id: note.id.toString()
-            }))}
-            onUnarchive={this.onUnarchiveHandler}
-            onDelete={this.onDeleteHandler}
-          />
-        </section>
-      </div>
-    );
-  }
+      <section className='archive-container'>
+        <h1>Archive Notes</h1>
+        <ArchiveList
+          notes={filteredArchived}
+          onUnarchive={onUnarchiveHandler}
+          onDelete={onDeleteHandler}
+        />
+      </section>
+    </div>
+  );
 }
 
 export default HomePage;
