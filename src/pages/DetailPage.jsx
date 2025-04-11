@@ -13,12 +13,26 @@ class DetailNote extends React.Component {
     super(props);
 
     this.state = {
-      note: getNote(props.id),
+      note: null,
+      isLoading: true,
     };
   }
 
+  async componentDidMount() {
+    const result = await getNote(this.props.id);
+    if (!result.error) {
+      this.setState({ note: result.data, isLoading: false });
+    } else {
+      this.setState({ isLoading: false });
+    }
+  }
+
   render() {
-    const { note } = this.state;
+    const { note, isLoading } = this.state;
+
+    if (isLoading) {
+      return <p>Loading...</p>;
+    }
     
     if (!note) {
       return <p>Note is not found!</p>;
