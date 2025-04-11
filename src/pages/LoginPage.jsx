@@ -15,9 +15,9 @@ function LoginPage({ loginSuccess }) {
  
   return (
     <section className='login-page'>
-      <h2>Silakan masuk untuk melanjutkan ...</h2>
+      <h2>Please Login to continue ...</h2>
       <LoginInput login={onLogin} />
-      <p>Belum punya akun yaaa <Link to="/register">Daftar di sini aja</Link></p>
+      <p>Don't have an account yet? <Link to="/register">Sign Up now</Link></p>
     </section>
   );
 }
