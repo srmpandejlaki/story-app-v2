@@ -23,6 +23,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  transition: background 0.3s ease-in;
 }
 
 a {
@@ -50,6 +51,19 @@ ul {
   display: flex;
   gap: 1rem;
   list-style-type: none;
+  /* align-items: center; */
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-button {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .nav-bar a {

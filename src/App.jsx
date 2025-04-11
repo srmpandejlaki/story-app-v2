@@ -6,6 +6,8 @@ import NotFoundPage from './pages/NotFoundPage';
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import NavBar from './components/nav-bar';
+import ToggleTheme from './components/toggleTheme';
+import { ThemeProvider } from './contexts/themeContext'
 
 import { getUserLogged, putAccessToken } from './utils/index';
 
@@ -15,6 +17,14 @@ class App extends React.Component {
  
     this.state = {
       authedUser: null,
+      theme: 'light',
+      toggleTheme: () => {
+        this.setState((prevState) => {
+          return {
+            theme: prevState.theme === 'light' ? 'dark' : 'light'
+          };
+        });
+      }
     };
 
     this.onLoginSuccess = this.onLoginSuccess.bind(this);
@@ -73,22 +83,27 @@ class App extends React.Component {
     }
  
     return (
-      < div className='main'>
-        <header>
-          <section className='header'>
-            <h1>DiPerNot</h1>
-            <NavBar logout={this.onLogout} />
-          </section>
-          <p className='text'>Welcome to the Digital Personal Notes Chest. Always Save All Your Memories Here</p>
-        </header>
-        <main>
-          <Routes>
-            <Route exact path='/' element={<HomePage />} />
-            <Route path='/note/:id' element={<DetailPageWrapper />} />
-            <Route path='*' element={<NotFoundPage />} />
-          </Routes>
-        </main>
-      </div>
+      <ThemeProvider value={this.state}>
+        <div className='main'>
+          <header>
+            <section className='header'>
+              <h1>DiPerNot</h1>
+              <div className='nav-container'>
+                <ToggleTheme />
+                <NavBar logout={this.onLogout} />
+              </div>
+            </section>
+            <p className='text'>Welcome to the Digital Personal Notes Chest. Always Save All Your Memories Here</p>
+          </header>
+          <main>
+            <Routes>
+              <Route exact path='/' element={<HomePage />} />
+              <Route path='/note/:id' element={<DetailPageWrapper />} />
+              <Route path='*' element={<NotFoundPage />} />
+            </Routes>
+          </main>
+        </div>
+      </ThemeProvider>
     );
   }
 }
