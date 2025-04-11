@@ -1,6 +1,5 @@
 import React from 'react';
-import { showFormattedDate } from '../utils/index';
-import { getNote } from '../utils/local-data';
+import { showFormattedDate, getNote } from '../utils/index';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 

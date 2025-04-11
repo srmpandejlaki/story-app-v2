@@ -1,5 +1,5 @@
 import React from 'react';
-import { getAllNotes, addNote, deleteNote, archiveNote, unarchiveNote } from '../utils/local-data';
+import { addNote, getActiveNotes, getArchivedNotes, archiveNote, unarchiveNote, deleteNote } from '../utils/index';
 import NoteLists from '../components/notes-list';
 import ArchiveList from '../components/archive-list';
 import FormContainer from '../components/form-container';
@@ -8,9 +8,11 @@ import SearchBar from '../components/search-bar';
 class HomePage extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      notes: getAllNotes(),
-      searchKeyword: '',
+      activeNotes: [],
+      archivedNotes: [],
+      searchKeyword: props.defaultKeyword || '',
     };
 
     this.onAddNotesHandler = this.onAddNotesHandler.bind(this);
@@ -20,24 +22,42 @@ class HomePage extends React.Component {
     this.onSearchHandler = this.onSearchHandler.bind(this);
   }
 
-  onAddNotesHandler({ title, body }) {
-    addNote(title, body);
-    this.setState({ notes: getAllNotes() });
+  async componentDidMount() {
+    await this.loadNotes();
   }
 
-  onArchiveHandler(id) {
-    archiveNote(id);
-    this.setState({ notes: getAllNotes() });
+  async loadNotes() {
+    const active = await getActiveNotes();
+    const archived = await getArchivedNotes();
+
+    if (!active.error && !archived.error) {
+      this.setState({
+        activeNotes: active.data,
+        archivedNotes: archived.data,
+      });
+    }
   }
 
-  onUnarchiveHandler(id) {
-    unarchiveNote(id);
-    this.setState({ notes: getAllNotes() });
+  async onAddNotesHandler({ title, body }) {
+    const result = await addNote({ title, body });
+    if (!result.error) {
+      await this.loadNotes();
+    }
   }
 
-  onDeleteHandler(id) {
-    deleteNote(id);
-    this.setState({ notes: getAllNotes() });
+  async onArchiveHandler(id) {
+    await archiveNote(id);
+    await this.loadNotes();
+  }
+
+  async onUnarchiveHandler(id) {
+    await unarchiveNote(id);
+    await this.loadNotes();
+  }
+
+  async onDeleteHandler(id) {
+    await deleteNote(id);
+    await this.loadNotes();
   }
 
   onSearchHandler(keyword) {
@@ -45,33 +65,40 @@ class HomePage extends React.Component {
   }
 
   render() {
-    const { notes, searchKeyword='' } = this.state;
-    const filteredNotes = notes.filter((note) => {
-      return note.title?.toLowerCase().includes(searchKeyword.toLowerCase());
-    });
+    const { activeNotes, archivedNotes, searchKeyword = '' } = this.state;
+
+    const filteredActive = activeNotes.filter((note) =>
+      note.title?.toLowerCase().includes(searchKeyword.toLowerCase())
+    );
+
+    const filteredArchived = archivedNotes.filter((note) =>
+      note.title?.toLowerCase().includes(searchKeyword.toLowerCase())
+    );
 
     return (
       <div className='main'>
         <section>
           <FormContainer addNotes={this.onAddNotesHandler} />
         </section>
+
         <section className='app-container'>
           <SearchBar onSearch={this.onSearchHandler} />
           <NoteLists
-            notes={filteredNotes.filter((note) => !note.archived).map(note => ({
+            notes={filteredActive.map((note) => ({
               ...note,
-              id: note.id.toString() // Mengonversi id menjadi string
+              id: note.id.toString()
             }))}
             onArchive={this.onArchiveHandler}
             onDelete={this.onDeleteHandler}
           />
         </section>
+
         <section className='archive-container'>
           <h1>Archive Notes</h1>
           <ArchiveList
-            notes={filteredNotes.filter((note) => note.archived).map(note => ({
+            notes={filteredArchived.map((note) => ({
               ...note,
-              id: note.id
+              id: note.id.toString()
             }))}
             onUnarchive={this.onUnarchiveHandler}
             onDelete={this.onDeleteHandler}
