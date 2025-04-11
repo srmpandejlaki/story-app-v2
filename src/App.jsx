@@ -7,6 +7,7 @@ import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import NavBar from './components/nav-bar';
 import { ThemeProvider } from './contexts/themeContext'
+import { LocaleProvider } from './contexts/localeContext'
 
 import { getUserLogged, putAccessToken } from './utils/index';
 
@@ -26,6 +27,19 @@ class App extends React.Component {
             theme: newTheme
           };
         });
+      },
+      localeContext: {
+        locale: 'id',
+        toggleLocale: () => {
+          this.setState((prevState) => {
+            return {
+              localeContext: {
+                ...prevState.localeContext,
+                locale: prevState.localeContext.locale === 'id' ? 'en' : 'id'
+              }
+            }
+          })
+        }
       }
     };
 
@@ -78,39 +92,46 @@ class App extends React.Component {
  
     if (this.state.authedUser === null) {
       return (
-        <div className='main'>
-          <header className='header'>
-            <h1>DiPerNot</h1>
-          </header>
-          <main>
-            <Routes>
-              <Route path="/*" element={<LoginPage loginSuccess={this.onLoginSuccess} />} />
-              <Route path="/register" element={<RegisterPage />} />
-            </Routes>
-          </main>
-        </div>
+        <LocaleProvider value={this.state.localeContext}>
+          <div className='main'>
+            <header className='header'>
+              <h1>DiPerNot</h1>
+            </header>
+            <main>
+              <Routes>
+                <Route path="/*" element={<LoginPage loginSuccess={this.onLoginSuccess} />} />
+                <Route path="/register" element={<RegisterPage />} />
+              </Routes>
+            </main>
+          </div>
+        </LocaleProvider>
       )
     }
  
     return (
-      <ThemeProvider value={this.state}>
-        <div className='main'>
-          <header>
-            <section className='header'>
-              <h1>DiPerNot</h1>
-                <NavBar logout={this.onLogout} />
-            </section>
-            <p className='text'>Welcome to the Digital Personal Notes Chest. Always Save All Your Memories Here</p>
-          </header>
-          <main>
-            <Routes>
-              <Route exact path='/' element={<HomePage />} />
-              <Route path='/note/:id' element={<DetailPageWrapper />} />
-              <Route path='*' element={<NotFoundPage />} />
-            </Routes>
-          </main>
-        </div>
-      </ThemeProvider>
+      <LocaleProvider value={this.state.localeContext}>
+        <ThemeProvider value={this.state}>
+          <div className='main'>
+            <header>
+              <section className='header'>
+                <h1>DiPerNot</h1>
+                  <NavBar logout={this.onLogout} />
+              </section>
+              <p className='text'>{this.state.localeContext.locale === 'id' ? 
+                'Welcome to the Digital Personal Notes Chest. Always Save All Your Memories Here' : 
+                'Selamat Datang di Digital Personal Notes Chest. Simpanlah Semua Kenangan Anda di Sini'}
+              </p>
+            </header>
+            <main>
+              <Routes>
+                <Route exact path='/' element={<HomePage />} />
+                <Route path='/note/:id' element={<DetailPageWrapper />} />
+                <Route path='*' element={<NotFoundPage />} />
+              </Routes>
+            </main>
+          </div>
+        </ThemeProvider>
+      </LocaleProvider>
     );
   }
 }

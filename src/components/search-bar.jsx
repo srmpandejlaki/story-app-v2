@@ -25,10 +25,10 @@ class SearchBar extends React.Component {
       <div className='search-bar'>
         <h3>Find Your Special Note</h3>
         <input
-          type="text"
+          type='text'
+          placeholder='Search note...'
           value={this.state.keyword}
           onChange={this.onSearchingEventHandler}
-          placeholder="Search Note..."
         />
       </div>
     );
