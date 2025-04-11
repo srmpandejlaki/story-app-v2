@@ -6,7 +6,6 @@ import NotFoundPage from './pages/NotFoundPage';
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import NavBar from './components/nav-bar';
-import ToggleTheme from './components/toggleTheme';
 import { ThemeProvider } from './contexts/themeContext'
 
 import { getUserLogged, putAccessToken } from './utils/index';
@@ -17,11 +16,14 @@ class App extends React.Component {
  
     this.state = {
       authedUser: null,
-      theme: 'light',
+      theme: localStorage.getItem('theme') || 'light',
       toggleTheme: () => {
         this.setState((prevState) => {
+          const newTheme = prevState.theme === 'light' ? 'dark' : 'light';
+          localStorage.setItem('theme', newTheme);
+ 
           return {
-            theme: prevState.theme === 'light' ? 'dark' : 'light'
+            theme: newTheme
           };
         });
       }
@@ -50,6 +52,14 @@ class App extends React.Component {
         initializing: false,
       };
     });
+    
+    document.documentElement.setAttribute('data-theme', this.state.theme);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.theme !== this.state.theme) {
+      document.documentElement.setAttribute('data-theme', this.state.theme);
+    }
   }
 
   onLogout() {
@@ -88,10 +98,7 @@ class App extends React.Component {
           <header>
             <section className='header'>
               <h1>DiPerNot</h1>
-              <div className='nav-container'>
-                <ToggleTheme />
                 <NavBar logout={this.onLogout} />
-              </div>
             </section>
             <p className='text'>Welcome to the Digital Personal Notes Chest. Always Save All Your Memories Here</p>
           </header>
